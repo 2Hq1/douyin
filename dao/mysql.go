@@ -2,9 +2,9 @@ package dao
 
 import (
 	"fmt"
-	"github.com/RaymondCode/simple-demo/setting"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"simple-demo/setting"
 )
 
 var (

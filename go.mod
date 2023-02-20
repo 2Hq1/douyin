@@ -1,12 +1,14 @@
-module github.com/RaymondCode/simple-demo
+module simple-demo
 
-go 1.17
+go 1.19
 
 require (
+	github.com/RaymondCode/simple-demo v0.0.0-20230109111057-5031aee01508
 	github.com/gavv/httpexpect/v2 v2.8.0
 	github.com/gin-gonic/gin v1.7.7
 	github.com/jinzhu/gorm v1.9.16
 	github.com/stretchr/testify v1.7.0
+	gopkg.in/ini.v1 v1.67.0
 )
 
 require (

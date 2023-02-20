@@ -2,16 +2,29 @@ package main
 
 import (
 	"fmt"
-	"github.com/RaymondCode/simple-demo/dao"
-	"github.com/RaymondCode/simple-demo/service"
-	"github.com/RaymondCode/simple-demo/setting"
-	"github.com/gin-gonic/gin"
+	"os"
+	"simple-demo/dao"
+	"simple-demo/models"
+	"simple-demo/routers"
+	"simple-demo/service"
+	"simple-demo/setting"
 )
 
 func main() {
+	if len(os.Args) < 2 {
+		fmt.Println("Usage：./simple-demo conf/config.ini")
+		return
+	}
+
+	// 加载配置文件
+	if err := setting.Init(os.Args[1]); err != nil {
+		fmt.Printf("load config from file failed, err:%v\n", err)
+		return
+	}
+
 	go service.RunMessageServer()
 
-	r := gin.Default()
+	//r := gin.Default()
 	// 连接数据库
 	err := dao.InitMySQL(setting.Conf.MySQLConfig)
 	if err != nil {
@@ -20,8 +33,9 @@ func main() {
 	}
 	defer dao.Close() // 程序退出关闭数据库连接
 	// 模型绑定
-	dao.DB.AutoMigrate(&models.Todo{})
-	initRouter(r)
-
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	dao.DB.AutoMigrate(&models.User{})
+	r := routers.SetupRouter()
+	if err := r.Run(fmt.Sprintf(":%d", setting.Conf.Port)); err != nil {
+		fmt.Printf("server startup failed, err:%v\n", err)
+	}
 }

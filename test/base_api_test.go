@@ -30,7 +30,7 @@ func TestUserAction(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	registerValue := fmt.Sprintf("douyin%d", rand.Intn(65536))
 
-	registerResp := e.POST("/douyin/user/register/").
+	registerResp := e.POST("/douyin/user/register.proto/").
 		WithQuery("username", registerValue).WithQuery("password", registerValue).
 		WithFormField("username", registerValue).WithFormField("password", registerValue).
 		Expect().

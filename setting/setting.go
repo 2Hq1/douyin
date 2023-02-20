@@ -1,5 +1,7 @@
 package setting
 
+import "gopkg.in/ini.v1"
+
 var Conf = new(AppConfig)
 
 // AppConfig 应用程序配置
