@@ -38,7 +38,15 @@ func GetAllUserInfo() (userInfoList []*UserInfo, err error) {
 	return
 }
 
-func GetAUserInfo(id string) (userInfo *UserInfo, err error) {
+func GetAUserInfoByEmail(email string) (userInfo *UserInfo, err error) {
+	userInfo = new(UserInfo)
+	if err = dao.DB.Debug().Where("email=?", email).First(userInfo).Error; err != nil {
+		return nil, err
+	}
+	return
+}
+
+func GetAUserInfoById(id string) (userInfo *UserInfo, err error) {
 	userInfo = new(UserInfo)
 	if err = dao.DB.Debug().Where("id=?", id).First(userInfo).Error; err != nil {
 		return nil, err
