@@ -38,35 +38,40 @@ func Register(c *gin.Context) {
 	username := c.Query("username")
 	password := c.Query("password")
 
-	var user models.User
+	//var userInfo models.UserInfo
 	token := username + password
-	err := c.BindJSON(&user)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	//userInfo := models.UserInfo{username, password}
+	//if err != nil {
+	//	fmt.Println(err)
+	//	return
+	//}
 	_, exist := usersLoginInfo[token]
 	fmt.Println(exist)
-	getUser, getErr := models.GetAUser(username)
+	getUserInfo, getErr := models.GetAUserInfo(username)
 	if getErr != nil {
-		panic(getErr)
+		fmt.Println(getErr)
 	}
-	if getUser != nil {
+	if getUserInfo != nil {
 		c.JSON(http.StatusOK, UserLoginResponse{
 			Response: Response{StatusCode: 1, StatusMsg: "User already exist"},
 		})
 	} else {
-		listUser, countErr := models.GetAllUser()
+		listUserInfo, countErr := models.GetAllUserInfo()
 		if countErr != nil {
-			panic(countErr)
+			fmt.Println(countErr)
 		}
-		count := len(listUser)
+		count := len(listUserInfo)
 		atomic.AddInt64(&userIdSequence, int64(count)+1)
+		newUserInfo := models.UserInfo{
+			Id:    userIdSequence,
+			Email: username,
+			Pwd:   password,
+		}
 		newUser := User{
 			Id:   userIdSequence,
 			Name: username,
 		}
-		e := models.CreateAUser(&user)
+		e := models.CreateAUserInfo(&newUserInfo)
 		if e != nil {
 			panic(e)
 		}
@@ -83,7 +88,7 @@ func Login(c *gin.Context) {
 	username := c.Query("username")
 	password := c.Query("password")
 
-	var loginUser models.User
+	var loginUser models.UserInfo
 	token := username + password
 	err := c.BindJSON(&loginUser)
 	if err != nil {
@@ -92,12 +97,12 @@ func Login(c *gin.Context) {
 	}
 	user, exist := usersLoginInfo[token]
 	fmt.Println(exist)
-	getUser, getErr := models.GetAUser(username)
+	getUserInfo, getErr := models.GetAUserInfo(username)
 	if getErr != nil {
 		fmt.Println(getErr)
 		return
 	}
-	if getUser != nil {
+	if getUserInfo != nil {
 		c.JSON(http.StatusOK, UserLoginResponse{
 			Response: Response{StatusCode: 0},
 			UserId:   user.Id,

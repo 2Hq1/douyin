@@ -33,7 +33,7 @@ func main() {
 	}
 	defer dao.Close() // 程序退出关闭数据库连接
 	// 模型绑定
-	dao.DB.AutoMigrate(&models.User{})
+	dao.DB.AutoMigrate(&(models.UserInfo{}))
 	r := routers.SetupRouter()
 	if err := r.Run(fmt.Sprintf(":%d", setting.Conf.Port)); err != nil {
 		fmt.Printf("server startup failed, err:%v\n", err)
