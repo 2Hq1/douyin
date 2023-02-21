@@ -1,8 +1,10 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"simple-demo/models"
 	"sync/atomic"
 )
 
@@ -36,17 +38,37 @@ func Register(c *gin.Context) {
 	username := c.Query("username")
 	password := c.Query("password")
 
+	var user models.User
 	token := username + password
-
-	if _, exist := usersLoginInfo[token]; exist {
+	err := c.BindJSON(&user)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	_, exist := usersLoginInfo[token]
+	fmt.Println(exist)
+	getUser, getErr := models.GetAUser(username)
+	if getErr != nil {
+		panic(getErr)
+	}
+	if getUser != nil {
 		c.JSON(http.StatusOK, UserLoginResponse{
 			Response: Response{StatusCode: 1, StatusMsg: "User already exist"},
 		})
 	} else {
-		atomic.AddInt64(&userIdSequence, 1)
+		listUser, countErr := models.GetAllUser()
+		if countErr != nil {
+			panic(countErr)
+		}
+		count := len(listUser)
+		atomic.AddInt64(&userIdSequence, int64(count)+1)
 		newUser := User{
 			Id:   userIdSequence,
 			Name: username,
+		}
+		e := models.CreateAUser(&user)
+		if e != nil {
+			panic(e)
 		}
 		usersLoginInfo[token] = newUser
 		c.JSON(http.StatusOK, UserLoginResponse{
@@ -61,9 +83,21 @@ func Login(c *gin.Context) {
 	username := c.Query("username")
 	password := c.Query("password")
 
+	var loginUser models.User
 	token := username + password
-
-	if user, exist := usersLoginInfo[token]; exist {
+	err := c.BindJSON(&loginUser)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	user, exist := usersLoginInfo[token]
+	fmt.Println(exist)
+	getUser, getErr := models.GetAUser(username)
+	if getErr != nil {
+		fmt.Println(getErr)
+		return
+	}
+	if getUser != nil {
 		c.JSON(http.StatusOK, UserLoginResponse{
 			Response: Response{StatusCode: 0},
 			UserId:   user.Id,
