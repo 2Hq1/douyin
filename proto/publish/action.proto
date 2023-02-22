@@ -1,6 +1,6 @@
 syntax = "proto2";
 package douyin.core;
-
+option  go_package="./";
 message douyin_publish_action_request {
   required string token = 1; // 用户鉴权token
   required bytes data = 2; // 视频数据

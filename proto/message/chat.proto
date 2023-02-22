@@ -1,6 +1,6 @@
 syntax = "proto2";
 package douyin.extra.second;
-
+option  go_package="./";
 message douyin_message_chat_request {
   required string token = 1; // 用户鉴权token
   required int64 to_user_id = 2; // 对方用户id

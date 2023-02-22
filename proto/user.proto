@@ -1,6 +1,6 @@
 syntax = "proto2";
 package douyin.core;
-
+option go_package = "./";
 message douyin_user_request {
   required int64 user_id = 1; // 用户id
   required string token = 2; // 用户鉴权token

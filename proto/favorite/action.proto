@@ -1,6 +1,6 @@
 syntax = "proto2";
 package douyin.extra.first;
-
+option  go_package="./";
 message douyin_favorite_action_request {
   required string token = 1; // 用户鉴权token
   required int64 video_id = 2; // 视频id
