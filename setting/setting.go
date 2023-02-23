@@ -9,6 +9,7 @@ type AppConfig struct {
 	Release      bool `ini:"release"`
 	Port         int  `ini:"port"`
 	*MySQLConfig `ini:"mysql"`
+	*FeedConfig  `int:"feed"`
 }
 
 // MySQLConfig 数据库配置
@@ -18,6 +19,10 @@ type MySQLConfig struct {
 	DB       string `ini:"db"`
 	Host     string `ini:"host"`
 	Port     int    `ini:"port"`
+}
+
+type FeedConfig struct {
+	Ip string `ini:"ip"`
 }
 
 func Init(file string) error {

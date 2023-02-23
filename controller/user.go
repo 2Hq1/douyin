@@ -32,6 +32,10 @@ type UserResponse struct {
 	User User `json:"user"`
 }
 
+var (
+	aLoginUser = "none"
+)
+
 func Register(c *gin.Context) {
 	username := c.Query("username")
 	password := c.Query("password")
@@ -45,40 +49,46 @@ func Register(c *gin.Context) {
 	//}
 	_, exist := usersLoginInfo[token]
 	fmt.Println(exist)
-	getUserInfo, getErr := models.GetAUserInfoByEmail(username)
+	getUser, getErr := GetAUserByName(username)
 	if getErr != nil {
 		fmt.Println(getErr)
 	}
-	fmt.Printf("getUserInfo:%#v\n", getUserInfo)
-	if getUserInfo != nil {
+	fmt.Printf("getUser:%#v\n", getUser)
+	if getUser != nil {
 		c.JSON(http.StatusOK, UserLoginResponse{
 			Response: Response{StatusCode: 1, StatusMsg: "User already exist"},
 		})
 	} else {
-		listUserInfo, countErr := models.GetAllUserInfo()
+		listUser, countErr := GetAllUser()
 		if countErr != nil {
 			fmt.Println(countErr)
 		}
-		fmt.Printf("listUserInfo:%#v\n", listUserInfo)
-		count := len(listUserInfo)
+		fmt.Printf("listUser:%#v\n", listUser)
+		count := len(listUser)
+
 		fmt.Println(count)
-		fmt.Println("count: " + string(count))
+		fmt.Println("count: " + string(rune(count)))
 		var userIdSequence = int64(count)
 		atomic.AddInt64(&userIdSequence, 1)
+		newStoreUser := User{
+			Id:            userIdSequence,
+			Name:          username,
+			FollowCount:   0,
+			FollowerCount: 0,
+			IsFollow:      false,
+		}
 		newUserInfo := models.UserInfo{
 			Id:    userIdSequence,
 			Email: username,
 			Pwd:   password,
 		}
-		newUser := User{
-			Id:   userIdSequence,
-			Name: username,
-		}
-		e := models.CreateAUserInfo(&newUserInfo)
+		e := CreateAUser(&newStoreUser)
+		e = models.CreateAUserInfo(&newUserInfo)
 		if e != nil {
 			panic(e)
 		}
-		usersLoginInfo[token] = newUser
+		usersLoginInfo[token] = newStoreUser
+		aLoginUser = username
 		c.JSON(http.StatusOK, UserLoginResponse{
 			Response: Response{StatusCode: 0},
 			UserId:   userIdSequence,
@@ -100,22 +110,23 @@ func Login(c *gin.Context) {
 	//}
 	user, exist := usersLoginInfo[token]
 	fmt.Println(exist)
+	getUser, getErr := GetAUserByName(username)
 	getUserInfo, getErr := models.GetAUserInfoByEmail(username)
-	if getErr != nil {
+	if getUser == nil {
 		fmt.Println(getErr)
+		c.JSON(http.StatusOK, UserLoginResponse{
+			Response: Response{StatusCode: 1, StatusMsg: "User doesn't exist"}})
 		return
 	}
-	if getUserInfo != nil {
-		c.JSON(http.StatusOK, UserLoginResponse{
-			Response: Response{StatusCode: 0},
-			UserId:   user.Id,
-			Token:    token,
-		})
-	} else {
-		c.JSON(http.StatusOK, UserLoginResponse{
-			Response: Response{StatusCode: 1, StatusMsg: "User doesn't exist"},
-		})
+	usersLoginInfo = map[string]User{
+		getUserInfo.Email + getUserInfo.Pwd: *getUser,
 	}
+	c.JSON(http.StatusOK, UserLoginResponse{
+		Response: Response{StatusCode: 0},
+		UserId:   user.Id,
+		Token:    token,
+	})
+
 }
 
 func UserInfo(c *gin.Context) {

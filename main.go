@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"simple-demo/controller"
 	"simple-demo/dao"
 	"simple-demo/models"
 	"simple-demo/routers"
@@ -32,8 +33,11 @@ func main() {
 		return
 	}
 	defer dao.Close() // 程序退出关闭数据库连接
+
+	//s := grpc.NewServer()
+	//publish.RegisterPublishServiceServer(s)
 	// 模型绑定
-	dao.DB.AutoMigrate(&(models.UserInfo{}))
+	dao.DB.AutoMigrate(&(controller.User{}), &(controller.Video{}), &(models.VideoInfo{}))
 	r := routers.SetupRouter()
 	if err := r.Run(fmt.Sprintf(":%d", setting.Conf.Port)); err != nil {
 		fmt.Printf("server startup failed, err:%v\n", err)

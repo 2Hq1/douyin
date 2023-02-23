@@ -1,6 +1,7 @@
 syntax = "proto2";
 package douyin.core;
-option go_package = "./";
+option go_package = "simple-demo/proto/feed";
+//import "proto/user.proto";
 message douyin_feed_request {
   optional int64 latest_time = 1; // 可选参数，限制返回视频的最新投稿时间戳，精确到秒，不填表示当前时间
   optional string token = 2; // 可选参数，登录用户设置
@@ -23,9 +24,10 @@ message Video {
   required bool is_favorite = 7; // true-已点赞，false-未点赞
   required string title = 8; // 视频标题
 }
-service VideoService{
-  rpc Create(Video)returns(Video);
-}
+//service VideoService{
+////  option (gorm.server).autogen = true;
+//  rpc CreateVideo(douyin_feed_request)returns(douyin_feed_response);
+//}
 
 message User {
   required int64 id = 1; // 用户id

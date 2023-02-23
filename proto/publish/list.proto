@@ -1,6 +1,6 @@
 syntax = "proto2";
 package douyin.core;
-option  go_package="./";
+option  go_package="simple-demo/models/pb/publish";
 message douyin_publish_list_request {
   required int64 user_id = 1; // 用户id
   required string token = 2; // 用户鉴权token
@@ -11,7 +11,10 @@ message douyin_publish_list_response {
   optional string status_msg = 2; // 返回状态描述
   repeated Video video_list = 3; // 用户发布的视频列表
 }
-
+//service PublishListService{
+//  //  option (gorm.server).autogen = true;
+//  rpc PublishList(douyin_publish_list_request)returns(douyin_publish_list_response);
+//}
 message Video {
   required int64 id = 1; // 视频唯一标识
   required User author = 2; // 视频作者信息
