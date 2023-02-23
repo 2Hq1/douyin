@@ -23,6 +23,9 @@ message Video {
   required bool is_favorite = 7; // true-已点赞，false-未点赞
   required string title = 8; // 视频标题
 }
+service VideoService{
+  rpc Create(Video)returns(Video);
+}
 
 message User {
   required int64 id = 1; // 用户id

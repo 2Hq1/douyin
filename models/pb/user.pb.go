@@ -138,132 +138,132 @@ func (x *DouyinUserResponse) GetUser() *User {
 	return nil
 }
 
-type User struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
+//type User struct {
+//	state         protoimpl.MessageState
+//	sizeCache     protoimpl.SizeCache
+//	unknownFields protoimpl.UnknownFields
+//
+//	Id              *int64  `protobuf:"varint,1,req,name=id" json:"id,omitempty"`                                                 // 用户id
+//	Name            *string `protobuf:"bytes,2,req,name=name" json:"name,omitempty"`                                              // 用户名称
+//	FollowCount     *int64  `protobuf:"varint,3,opt,name=follow_count,json=followCount" json:"follow_count,omitempty"`            // 关注总数
+//	FollowerCount   *int64  `protobuf:"varint,4,opt,name=follower_count,json=followerCount" json:"follower_count,omitempty"`      // 粉丝总数
+//	IsFollow        *bool   `protobuf:"varint,5,req,name=is_follow,json=isFollow" json:"is_follow,omitempty"`                     // true-已关注，false-未关注
+//	Avatar          *string `protobuf:"bytes,6,opt,name=avatar" json:"avatar,omitempty"`                                          //用户头像
+//	BackgroundImage *string `protobuf:"bytes,7,opt,name=background_image,json=backgroundImage" json:"background_image,omitempty"` //用户个人页顶部大图
+//	Signature       *string `protobuf:"bytes,8,opt,name=signature" json:"signature,omitempty"`                                    //个人简介
+//	TotalFavorited  *int64  `protobuf:"varint,9,opt,name=total_favorited,json=totalFavorited" json:"total_favorited,omitempty"`   //获赞数量
+//	WorkCount       *int64  `protobuf:"varint,10,opt,name=work_count,json=workCount" json:"work_count,omitempty"`                 //作品数量
+//	FavoriteCount   *int64  `protobuf:"varint,11,opt,name=favorite_count,json=favoriteCount" json:"favorite_count,omitempty"`     //点赞数量
+//}
 
-	Id              *int64  `protobuf:"varint,1,req,name=id" json:"id,omitempty"`                                                 // 用户id
-	Name            *string `protobuf:"bytes,2,req,name=name" json:"name,omitempty"`                                              // 用户名称
-	FollowCount     *int64  `protobuf:"varint,3,opt,name=follow_count,json=followCount" json:"follow_count,omitempty"`            // 关注总数
-	FollowerCount   *int64  `protobuf:"varint,4,opt,name=follower_count,json=followerCount" json:"follower_count,omitempty"`      // 粉丝总数
-	IsFollow        *bool   `protobuf:"varint,5,req,name=is_follow,json=isFollow" json:"is_follow,omitempty"`                     // true-已关注，false-未关注
-	Avatar          *string `protobuf:"bytes,6,opt,name=avatar" json:"avatar,omitempty"`                                          //用户头像
-	BackgroundImage *string `protobuf:"bytes,7,opt,name=background_image,json=backgroundImage" json:"background_image,omitempty"` //用户个人页顶部大图
-	Signature       *string `protobuf:"bytes,8,opt,name=signature" json:"signature,omitempty"`                                    //个人简介
-	TotalFavorited  *int64  `protobuf:"varint,9,opt,name=total_favorited,json=totalFavorited" json:"total_favorited,omitempty"`   //获赞数量
-	WorkCount       *int64  `protobuf:"varint,10,opt,name=work_count,json=workCount" json:"work_count,omitempty"`                 //作品数量
-	FavoriteCount   *int64  `protobuf:"varint,11,opt,name=favorite_count,json=favoriteCount" json:"favorite_count,omitempty"`     //点赞数量
-}
-
-func (x *User) Reset() {
-	*x = User{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_user_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *User) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*User) ProtoMessage() {}
-
-func (x *User) ProtoReflect() protoreflect.Message {
-	mi := &file_user_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use User.ProtoReflect.Descriptor instead.
-func (*User) Descriptor() ([]byte, []int) {
-	return file_user_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *User) GetId() int64 {
-	if x != nil && x.Id != nil {
-		return *x.Id
-	}
-	return 0
-}
-
-func (x *User) GetName() string {
-	if x != nil && x.Name != nil {
-		return *x.Name
-	}
-	return ""
-}
-
-func (x *User) GetFollowCount() int64 {
-	if x != nil && x.FollowCount != nil {
-		return *x.FollowCount
-	}
-	return 0
-}
-
-func (x *User) GetFollowerCount() int64 {
-	if x != nil && x.FollowerCount != nil {
-		return *x.FollowerCount
-	}
-	return 0
-}
-
-func (x *User) GetIsFollow() bool {
-	if x != nil && x.IsFollow != nil {
-		return *x.IsFollow
-	}
-	return false
-}
-
-func (x *User) GetAvatar() string {
-	if x != nil && x.Avatar != nil {
-		return *x.Avatar
-	}
-	return ""
-}
-
-func (x *User) GetBackgroundImage() string {
-	if x != nil && x.BackgroundImage != nil {
-		return *x.BackgroundImage
-	}
-	return ""
-}
-
-func (x *User) GetSignature() string {
-	if x != nil && x.Signature != nil {
-		return *x.Signature
-	}
-	return ""
-}
-
-func (x *User) GetTotalFavorited() int64 {
-	if x != nil && x.TotalFavorited != nil {
-		return *x.TotalFavorited
-	}
-	return 0
-}
-
-func (x *User) GetWorkCount() int64 {
-	if x != nil && x.WorkCount != nil {
-		return *x.WorkCount
-	}
-	return 0
-}
-
-func (x *User) GetFavoriteCount() int64 {
-	if x != nil && x.FavoriteCount != nil {
-		return *x.FavoriteCount
-	}
-	return 0
-}
+//func (x *User) Reset() {
+//	*x = User{}
+//	if protoimpl.UnsafeEnabled {
+//		mi := &file_user_proto_msgTypes[2]
+//		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+//		ms.StoreMessageInfo(mi)
+//	}
+//}
+//
+//func (x *User) String() string {
+//	return protoimpl.X.MessageStringOf(x)
+//}
+//
+//func (*User) ProtoMessage() {}
+//
+//func (x *User) ProtoReflect() protoreflect.Message {
+//	mi := &file_user_proto_msgTypes[2]
+//	if protoimpl.UnsafeEnabled && x != nil {
+//		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+//		if ms.LoadMessageInfo() == nil {
+//			ms.StoreMessageInfo(mi)
+//		}
+//		return ms
+//	}
+//	return mi.MessageOf(x)
+//}
+//
+//// Deprecated: Use User.ProtoReflect.Descriptor instead.
+//func (*User) Descriptor() ([]byte, []int) {
+//	return file_user_proto_rawDescGZIP(), []int{2}
+//}
+//
+//func (x *User) GetId() int64 {
+//	if x != nil && x.Id != nil {
+//		return *x.Id
+//	}
+//	return 0
+//}
+//
+//func (x *User) GetName() string {
+//	if x != nil && x.Name != nil {
+//		return *x.Name
+//	}
+//	return ""
+//}
+//
+//func (x *User) GetFollowCount() int64 {
+//	if x != nil && x.FollowCount != nil {
+//		return *x.FollowCount
+//	}
+//	return 0
+//}
+//
+//func (x *User) GetFollowerCount() int64 {
+//	if x != nil && x.FollowerCount != nil {
+//		return *x.FollowerCount
+//	}
+//	return 0
+//}
+//
+//func (x *User) GetIsFollow() bool {
+//	if x != nil && x.IsFollow != nil {
+//		return *x.IsFollow
+//	}
+//	return false
+//}
+//
+//func (x *User) GetAvatar() string {
+//	if x != nil && x.Avatar != nil {
+//		return *x.Avatar
+//	}
+//	return ""
+//}
+//
+//func (x *User) GetBackgroundImage() string {
+//	if x != nil && x.BackgroundImage != nil {
+//		return *x.BackgroundImage
+//	}
+//	return ""
+//}
+//
+//func (x *User) GetSignature() string {
+//	if x != nil && x.Signature != nil {
+//		return *x.Signature
+//	}
+//	return ""
+//}
+//
+//func (x *User) GetTotalFavorited() int64 {
+//	if x != nil && x.TotalFavorited != nil {
+//		return *x.TotalFavorited
+//	}
+//	return 0
+//}
+//
+//func (x *User) GetWorkCount() int64 {
+//	if x != nil && x.WorkCount != nil {
+//		return *x.WorkCount
+//	}
+//	return 0
+//}
+//
+//func (x *User) GetFavoriteCount() int64 {
+//	if x != nil && x.FavoriteCount != nil {
+//		return *x.FavoriteCount
+//	}
+//	return 0
+//}
 
 var File_user_proto protoreflect.FileDescriptor
 
