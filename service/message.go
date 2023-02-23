@@ -4,20 +4,39 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/RaymondCode/simple-demo/controller"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"io"
 	"net"
+	"simple-demo/models/pb"
 	"sync"
 )
+
+type feedServer struct {
+	pb.UnimplementedVideoServiceServer
+}
 
 var chatConnMap = sync.Map{}
 
 func RunMessageServer() {
+	creds, _ := credentials.NewServerTLSFromFile("D:\\goLandProjects\\byte\\simple-demo\\key\\test.pem", "D:\\goLandProjects\\byte\\simple-demo\\key\\test.key")
+
 	listen, err := net.Listen("tcp", "127.0.0.1:8080")
 	if err != nil {
 		fmt.Printf("Run message sever failed: %v\n", err)
 		return
 	}
+	// 创建grpc服务
+	grpcServer := grpc.NewServer(grpc.Creds(creds))
+	// 在grpc服务端中去注册自己编写的服务
+	pb.RegisterVideoServiceServer(grpcServer, &feedServer{})
 
+	// 启动服务
+	err = grpcServer.Serve(listen)
+	if err != nil {
+		fmt.Printf("failed to serve:%v", err)
+		return
+	}
 	for {
 		conn, err := listen.Accept()
 		if err != nil {
